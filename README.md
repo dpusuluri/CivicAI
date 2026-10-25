@@ -103,3 +103,4 @@ git push -u origin main
 ```
 
 The `.gitignore` excludes passwords in `.env`, local photos, build artifacts and dependencies. Confirm that no submitted case data or identifying photos are accidentally committed.
+
