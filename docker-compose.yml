@@ -1,0 +1,35 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: civicai
+      POSTGRES_USER: civicai
+      POSTGRES_PASSWORD: civicai
+    ports:
+      - '5432:5432'
+    volumes:
+      - civicai_db:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U civicai']
+      interval: 5s
+      retries: 15
+  backend:
+    build: ./backend
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_URL: jdbc:postgresql://db:5432/civicai
+      DB_USER: civicai
+      DB_PASSWORD: civicai
+      ADMIN_USER: ${ADMIN_USER:-officer}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-change-me-in-production}
+      FRONTEND_ORIGIN: http://localhost:4200
+      STORAGE_PATH: /data/uploads
+    ports:
+      - '8080:8080'
+    volumes:
+      - civicai_images:/data/uploads
+volumes:
+  civicai_db:
+  civicai_images:

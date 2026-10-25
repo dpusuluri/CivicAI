@@ -1,0 +1,21 @@
+server:
+  port: 8080
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/civicai}
+    username: ${DB_USER:civicai}
+    password: ${DB_PASSWORD:civicai}
+  jpa:
+    hibernate:
+      ddl-auto: update # Demo only; use migrations in production
+    open-in-view: false
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 6MB
+civicai:
+  admin:
+    username: ${ADMIN_USER:officer}
+    password: ${ADMIN_PASSWORD:change-me-in-production}
+  storage-path: ${STORAGE_PATH:./uploads}
+  allowed-origin: ${FRONTEND_ORIGIN:http://localhost:4200}
